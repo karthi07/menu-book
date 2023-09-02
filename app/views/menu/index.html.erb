@@ -1,8 +1,9 @@
-<h1>Menu</h1>
 
-
-
-<table class="mx-5 my-4 table table-striped table-hover">
+<div class="d-flex justify-content-around align-items-center">
+<h1 class="mx-5 my-4">Menu</h1>
+<button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#uploaderModal"> Bulk Upload </button>
+</div>
+<table class="mx-5 my-4 table table-striped table-hover w-75">
   <thead>
     <tr>
       <th scope="col">#</th>
@@ -28,3 +29,25 @@
     <% end %>
   </tbody>
 </table>
+
+
+<div class="modal fade" id="uploaderModal" tabindex="-1" aria-labelledby="menu-uploader" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Menu book uploader</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">        
+
+        <p> upload an excel sheet or CSV file with the dishes sold in restaurant</p>
+        <%= render "import" %>
+      </div>
+      
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <%# <button type="button" class="btn btn-primary">Upload</button> %>
+      </div>
+    </div>
+  </div>
+</div>
