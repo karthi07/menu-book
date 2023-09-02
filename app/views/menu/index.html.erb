@@ -1,3 +1,30 @@
 <h1>Menu</h1>
-<h2>Hello, Rails!</h3>
-<button type="button" class="btn btn-success">Success</button>
+
+
+
+<table class="mx-5 my-4 table table-striped table-hover">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Description</th>
+      <th scope="col">Type</th>
+      <th scope="col">Allergens</th>
+      <th scope="col">Category</th>
+      <th scope="col">Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @menu.each.with_index do |dish, idx| %>
+        <tr>
+          <th scope="row"> <%= idx + 1 %> </th>
+          <td> <%= dish.dish_name %> </td>
+          <td><%= dish.dish_desc %></td>
+          <td><%= dish.dish_type %></td>
+          <td><%= dish.allergens %></td>
+          <td><%= dish.category %></td>
+          <td><%= dish.price %></td>
+        </tr>
+    <% end %>
+  </tbody>
+</table>
