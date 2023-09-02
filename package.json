@@ -2,8 +2,12 @@
   "name": "app",
   "private": "true",
   "dependencies": {
+    "@hotwired/stimulus": "^3.2.2",
     "@hotwired/turbo-rails": "^7.3.0",
-    "esbuild": "^0.19.2"
+    "@popperjs/core": "^2.11.8",
+    "bootstrap": "^5.3.1",
+    "esbuild": "^0.19.2",
+    "jquery": "^3.7.1"
   },
   "scripts": {
     "build": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds --public-path=/assets"
