@@ -1,23 +1,36 @@
 class ImportMenuJob
   include Sidekiq::Job
 
+  require 'csv'
+
   Sidekiq.strict_args!(false)
 
-  def perform()
-    # menu = parse_and_build_menu()
-    # Menu.import(menu_items, batch_size: 1000)
-    
+  def perform(data_import_id)
+    @data_import = DataImport.find(data_import_id)
+    menu_items, failed_items = parse_and_build_menu
+    Menu.import(menu_items,synchronize: menu_items, on_duplicate_key_ignore: true, track_validation_failures: true, validate: true, batch_size: 1000)
+  end
+
+  def update_menu_item(current_menu, row)
+    current_menu['dish_desc'] = row['dish_desc']
+    current_menu['dish_type'] = row['dish_type']
+    current_menu['allergens'] = row['allergens']
+    current_menu['category'] = row['category']
+    current_menu['price'] = row['price']
+    current_menu.save
   end
 
   def parse_and_build_menu()
+    data_file = @data_import.import_file.download
     
-    opened_file = File.open(importFile)
-    options = { headers: true, col_sep: ',' }
     menu_items = []
     failed_items = []
-    CSV.foreach(opened_file, **options) do |row|
-      current_menu = Menu.find_by(dish_name: row.dish_name)
-      current_menu ||= Menu.new(row)
+    
+    csv = CSV.parse(@data_import.import_file.download, headers: true)
+    csv.each do |row|
+      current_menu = Menu.find_by(dish_name: row['dish_name'])
+      update_menu_item(current_menu, row) if current_menu.present? && current_menu.valid?
+      current_menu ||= Menu.new(row.to_h.with_indifferent_access.except(:id))
       if current_menu.valid?
         menu_items << current_menu
       else
@@ -25,8 +38,6 @@ class ImportMenuJob
         failed_items << row
       end 
     end
-
-    Menu.import(menu_items, batch_size: 1000)
-
+    [menu_items, failed_items]
   end
 end
