@@ -74,3 +74,5 @@ group :development do
   # gem "spring"
 end
 
+
+gem "roo", "~> 2.10"

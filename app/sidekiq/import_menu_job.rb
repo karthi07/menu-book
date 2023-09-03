@@ -25,9 +25,17 @@ class ImportMenuJob
     
     menu_items = []
     failed_items = []
-    
-    csv = CSV.parse(@data_import.import_file.download, headers: true)
-    csv.each do |row|
+    import_file = @data_import.import_file.download
+
+    if @data_import.data_type == 'text/csv'
+      data = CSV.parse(import_file, headers: true)
+    else
+      file_path = ActiveStorage::Blob.service.path_for(@data_import.import_file.key).to_s
+      sheet = Roo::Spreadsheet.open(file_path,extension: :xlsx) # open spreadsheet
+      converted_file=sheet.to_csv
+      data = CSV.parse(converted_file, headers: true)
+    end
+    data.each do |row|
       current_menu = Menu.find_by(dish_name: row['dish_name'])
       update_menu_item(current_menu, row) if current_menu.present? && current_menu.valid?
       current_menu ||= Menu.new(row.to_h.with_indifferent_access.except(:id))
