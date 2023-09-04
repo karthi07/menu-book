@@ -1,7 +1,14 @@
 <div  class="d-flex mx-5 justify-content-between align-items-center">
 <% if user_signed_in? %> 
- <div> Welcome <%= current_user.email %> </div> 
-  <%= button_to "Sign out", destroy_user_session_path, method: :delete %> 
+  <nav class="navbar bg-body-tertiary w-100">
+    <div class="container-fluid justify-content-between">
+      <span class="navbar-text">
+         Hi <%= current_user.email %> 
+      </span>
+      <%= button_to "Sign out", destroy_user_session_path, class: 'btn btn-outline-warning', method: :delete %> 
+    </div>
+  </nav>
+ 
 <% else %>
   <%= button_to "Sign in", new_user_session_path %> 
 <% end %>
@@ -11,33 +18,27 @@
 <h1 class="mx-5 my-4">Menu</h1>
 <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#uploaderModal"> Bulk Upload </button>
 </div>
-<table class="mx-5 my-4 table table-striped table-hover w-75">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Name</th>
-      <th scope="col">Description</th>
-      <th scope="col">Type</th>
-      <th scope="col">Allergens</th>
-      <th scope="col">Category</th>
-      <th scope="col">Price</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @menu.each.with_index do |dish, idx| %>
-        <tr>
-          <th scope="row"> <%= idx + 1 %> </th>
-          <td> <%= dish.dish_name %> </td>
-          <td><%= dish.dish_desc %></td>
-          <td><%= dish.dish_type %></td>
-          <td><%= dish.allergens %></td>
-          <td><%= dish.category %></td>
-          <td><%= dish.price %></td>
-        </tr>
-    <% end %>
-  </tbody>
-</table>
-
+  <% @category.each do |cat| %>       
+    <p  class="h4 mx-5 my-4 "> <%= cat.category %>  </p> 
+    <table class="mx-5 my-4 table table-striped table-hover w-75">        
+      <tbody>
+        <% Menu.where(category: cat.category).find_each do |dish, idx| %>
+            <tr>
+              <td> 
+              <div>
+                <div class="h5"><%= dish.dish_name %> </div> 
+                <%= dish.dish_desc %> 
+                <span class="badge <%= dish.dish_type === 'Non-Veg' ? 'text-bg-danger' : 'text-bg-success' %>"  > <%=  dish.dish_type %></span>
+                <span class="badge text-bg-warning"><%=  dish.allergens %></span>
+              </div>
+              </td>
+              <td><%= dish.price %></td>
+            </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+  
 
 <div class="modal fade" id="uploaderModal" tabindex="-1" aria-labelledby="menu-uploader" aria-hidden="true">
   <div class="modal-dialog">
@@ -54,7 +55,6 @@
       
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <%# <button type="button" class="btn btn-primary">Upload</button> %>
       </div>
     </div>
   </div>

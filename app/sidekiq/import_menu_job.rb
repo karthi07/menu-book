@@ -3,7 +3,7 @@ class ImportMenuJob
 
   require 'csv'
 
-  Sidekiq.strict_args!(false)
+  sidekiq_options retry: 0
 
   def perform(data_import_id)
     @data_import = DataImport.find(data_import_id)
