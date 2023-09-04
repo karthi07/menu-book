@@ -1,0 +1,18 @@
+databases:
+  - name: menu_book_db
+    databaseName: menu_book_db
+    user: menu_book_admin
+
+services:
+  - type: web
+    name: menu-book
+    runtime: ruby
+    buildCommand: "./bin/render-build.sh"
+    startCommand: "bundle exec puma -C config/puma.rb"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: menu_book_db
+          property: connectionString
+      - key: RAILS_MASTER_KEY
+        sync: false
