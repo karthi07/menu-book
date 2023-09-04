@@ -13,12 +13,20 @@ Build a web application, where user can upload an excel sheet OR CSV with the di
 
 ### build process
 
+
+postgresql setup
+ - setup postgresql at your local machine 
+ -  update the username password in the database.yml file
+ 
+
     1. clone the repo
     2. bundle install
     3. bundle exec rake assets:precompile SKIP_CSS_BUILD=true
     4. bundle exec rake assets:clean
     5. bundle exec rake db:migrate
     6. bundle exec rake db:seed
+
+
 
 ### start server
     1. rails s

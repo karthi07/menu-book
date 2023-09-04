@@ -8,12 +8,7 @@ Rails.application.routes.draw do
 
   mount Sidekiq::Web => "/sidekiq" # mount Sidekiq::Web in your Rails app
 
-  resources :menu do
-    collection do
-      post :import
-    end
-  end
-  
+  post "/import", to: "menu#import", as: 'import_menu'
   
   # Defines the root path route ("/")
   root "menu#index"
