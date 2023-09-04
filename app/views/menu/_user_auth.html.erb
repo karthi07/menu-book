@@ -1,0 +1,15 @@
+<div  class="d-flex mx-5 justify-content-between align-items-center">
+<% if user_signed_in? %> 
+  <nav class="navbar bg-body-tertiary w-100">
+    <div class="container-fluid justify-content-between">
+      <span class="navbar-text">
+         Hi <%= current_user.email %> 
+      </span>
+      <%= button_to "Sign out", destroy_user_session_path, class: 'btn btn-outline-warning', method: :delete %> 
+    </div>
+  </nav>
+ 
+<% else %>
+  <%= button_to "Sign in", new_user_session_path %> 
+<% end %>
+</div>
