@@ -1,24 +1,35 @@
-# README
+# Menu Book Uploader
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+As a big restaurant owner, User should to set up an online menu for my restaurant.
 
-Things you may want to cover:
+Build a web application, where user can upload an excel sheet OR CSV with the dishes sold in thier restaurant.
 
-* Ruby version
+## Tools Used
+- Ruby on Rails
+- Postgresql
+- sidekiq [background job processing]
 
-* System dependencies
+## Deployment steps
 
-* Configuration
+### build process
 
-* Database creation
+    1. clone the repo
+    2. bundle install
+    3. bundle exec rake assets:precompile SKIP_CSS_BUILD=true
+    4. bundle exec rake assets:clean
+    5. bundle exec rake db:migrate
+    6. bundle exec rake db:seed
 
-* Database initialization
+### start server
+    1. rails s
+    2. bundle exec sidekiq 
 
-* How to run the test suite
 
-* Services (job queues, cache servers, search engines, etc.)
+## Online version
 
-* Deployment instructions
+Deployed using render. 
 
-* ...
+https://menu-book.onrender.com/
+
+^ note: upload data will not work, as render doesnot provide backgound job setup in free version
+https://render.com/docs/deploy-sidekiq-worker
