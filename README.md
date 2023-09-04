@@ -33,3 +33,9 @@ https://menu-book.onrender.com/
 
 ^ note: upload data will not work, as render doesnot provide backgound job setup in free version
 https://render.com/docs/deploy-sidekiq-worker
+
+
+## Todo
+
+    - [] add pagination
+    - [] reload menu page after job is completed
