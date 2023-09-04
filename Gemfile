@@ -78,3 +78,5 @@ end
 gem "roo", "~> 2.10"
 
 gem 'faker'
+
+gem 'kaminari'

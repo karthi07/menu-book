@@ -2,9 +2,10 @@ class MenuController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @menu = Menu.all
+    # @menu = Menu.all
 
     @category = Menu.select("category").group("category")
+
   end
 
   def import
